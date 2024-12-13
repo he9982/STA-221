@@ -45,6 +45,18 @@ class CustomImageFolder(Dataset):
             image = self.transform(image)
         return image, label
 
+class CustomTensorDataset(Dataset):
+    def __init__(self, images, labels, image_size=(128, 128)):
+        self.images = torch.tensor(images, dtype=torch.float32).view(-1, 1, *image_size) #change the size of array to align with extract_features
+        self.labels = torch.tensor(labels, dtype=torch.long)
+
+    def __len__(self):
+        return len(self.labels)
+
+    def __getitem__(self, index):
+        return self.images[index], self.labels[index]
+
+
 
 # In[3]:
 
